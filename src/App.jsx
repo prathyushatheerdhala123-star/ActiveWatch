@@ -1,18 +1,18 @@
 import { Route, Routes } from 'react-router-dom';
 import HomePage    from './pages/HomePage.jsx';
-import LearnMode   from './pages/LearnMode.jsx';
+import GrowMode    from './pages/GrowMode.jsx';
 import Dashboard   from './pages/Dashboard.jsx';
-import CapturePage from './pages/CapturePage.jsx';
-import GuardMode   from './pages/GuardMode.jsx';
+import CollectPage from './pages/CollectPage.jsx';
+import UnwindMode  from './pages/UnwindMode.jsx';
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/"          element={<HomePage />}    />
-      <Route path="/learn"     element={<LearnMode />}   />
-      <Route path="/dashboard" element={<Dashboard />}   />
-      <Route path="/capture"   element={<CapturePage />} />
-      <Route path="/guard"     element={<GuardMode />}   />
+      <Route path="/"        element={<HomePage />}    />
+      <Route path="/grow"    element={<GrowMode />}    />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/collect" element={<CollectPage />} />
+      <Route path="/unwind"  element={<UnwindMode />}  />
     </Routes>
   );
 }
