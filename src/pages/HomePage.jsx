@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { saveVideo } from "../api.js";
 
 const MODE_META = {
-  learn:   { label: "Learn Mode",   color: "#7C6FCD", bg: "#EDE9FB", border: "#C9C2F0", icon: "🎓" },
-  capture: { label: "Capture Mode", color: "#2A7D52", bg: "#E6F4EE", border: "#B2D9C4", icon: "📋" },
-  guard:   { label: "Guard Mode",   color: "#C47B2B", bg: "#FEF3E8", border: "#F0CEAA", icon: "🛡️" },
+  grow:    { label: "Grow Mode",    color: "#7C6FCD", bg: "#EDE9FB", border: "#C9C2F0", icon: "🎓" },
+  collect: { label: "Collect Mode", color: "#2A7D52", bg: "#E6F4EE", border: "#B2D9C4", icon: "📌" },
+  unwind:  { label: "Unwind Mode",  color: "#C47B2B", bg: "#FEF3E8", border: "#F0CEAA", icon: "🌿" },
 };
 
 function Typewriter({ words }) {
@@ -25,7 +25,7 @@ function Typewriter({ words }) {
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const [url, setUrl]       = useState("");
+  const [url, setUrl]         = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult]   = useState(null);
   const [error, setError]     = useState("");
@@ -46,7 +46,7 @@ export default function HomePage() {
     }
   }
 
-  const routeTo = m => m === "learn" ? "/learn" : m === "capture" ? "/capture" : "/guard";
+  const routeTo = m => m === "grow" ? "/grow" : m === "collect" ? "/collect" : "/unwind";
   const meta    = result ? MODE_META[result.mode] : null;
 
   return (
@@ -72,7 +72,7 @@ export default function HomePage() {
           <span style={{ color: "#7C6FCD", fontWeight: 600 }}>Watch</span>
         </div>
         <div style={{ display: "flex", gap: 24 }}>
-          {[["Dashboard", "/dashboard"], ["Learn", "/learn"], ["Capture", "/capture"]].map(([l, p]) => (
+          {[["Dashboard", "/dashboard"], ["Grow", "/grow"], ["Collect", "/collect"]].map(([l, p]) => (
             <button key={l} className="aw-nav-btn" onClick={() => navigate(p)}
               style={{ background: "none", border: "none", color: "#9794A8", fontSize: 14, cursor: "pointer", fontFamily: "inherit", transition: "color 0.2s" }}>{l}</button>
           ))}
@@ -132,9 +132,9 @@ export default function HomePage() {
 
         <div style={{ ...S.modeGrid, animation: "fadeUp 0.6s 0.3s ease both" }}>
           {[
-            { icon: "🎓", title: "Learn Mode",   color: "#7C6FCD", bg: "#EDE9FB", border: "#C9C2F0", desc: "Chapters, MCQs & coding challenges. Unlock as you go. Earn coins.", tag: "Tutorials" },
-            { icon: "📋", title: "Capture Mode", color: "#2A7D52", bg: "#E6F4EE", border: "#B2D9C4", desc: "AI summary, key takeaways & action items. Export to Notion.",        tag: "Podcasts"  },
-            { icon: "🛡️", title: "Guard Mode",   color: "#C47B2B", bg: "#FEF3E8", border: "#F0CEAA", desc: "Daily watch limits, smart queue, no autoplay, 24h archive.",         tag: "Vlogs"     },
+            { icon: "🎓", title: "Grow Mode",    color: "#7C6FCD", bg: "#EDE9FB", border: "#C9C2F0", desc: "Chapters, MCQs & coding challenges. Unlock as you go. Earn coins. Build your Knowledge Graph.", tag: "Tutorials" },
+            { icon: "📌", title: "Collect Mode", color: "#2A7D52", bg: "#E6F4EE", border: "#B2D9C4", desc: "Save beautiful moments with one tap. Visual shelves. Smart re-surfacing at the right moment.", tag: "Lifestyle"  },
+            { icon: "🌿", title: "Unwind Mode",  color: "#C47B2B", bg: "#FEF3E8", border: "#F0CEAA", desc: "Gentle wind-down nudges. Mood-based queue. Weekly awareness digest. No guilt, no hard stops.", tag: "Vlogs"     },
           ].map(m => (
             <div key={m.title} className="aw-mode-card"
               style={{ background: "#FAFAFA", border: `1px solid #E8E4F0`, borderRadius: 12, padding: 18, transition: "all 0.2s" }}>
@@ -169,16 +169,16 @@ export default function HomePage() {
 }
 
 const S = {
-  root:    { minHeight: "100vh", background: "#F7F6FB", fontFamily: "'Space Grotesk',sans-serif", color: "#6B6880", display: "flex", flexDirection: "column" },
-  nav:     { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 48px", borderBottom: "1px solid #E8E4F0", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(10px)", position: "sticky", top: 0, zIndex: 10 },
-  logo:    { display: "flex", alignItems: "center", gap: 6, fontSize: 18, fontFamily: "'JetBrains Mono',monospace" },
-  main:    { flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "64px 24px 48px", maxWidth: 720, margin: "0 auto", width: "100%" },
-  pill:    { display: "inline-block", background: "#EDE9FB", border: "1px solid #C9C2F0", color: "#7C6FCD", fontSize: 12, fontWeight: 500, padding: "5px 14px", borderRadius: 20, letterSpacing: "0.04em", marginBottom: 24 },
-  h1:      { fontSize: "clamp(32px,5vw,52px)", fontWeight: 600, color: "#1E1B2E", lineHeight: 1.15, margin: "0 0 20px", textAlign: "center", letterSpacing: "-1px" },
-  sub:     { fontSize: 16, color: "#9794A8", lineHeight: 1.7, textAlign: "center", maxWidth: 520, margin: "0 0 40px" },
-  card:    { width: "100%", background: "#FFFFFF", border: "1px solid #E8E4F0", borderRadius: 16, padding: 20, marginBottom: 28, boxShadow: "0 1px 4px rgba(124,111,205,0.06)" },
-  input:   { width: "100%", background: "#F7F6FB", border: "1px solid #D8D4EC", borderRadius: 10, padding: "13px 16px 13px 40px", color: "#1E1B2E", fontSize: 14, fontFamily: "'JetBrains Mono',monospace", transition: "border-color 0.2s,box-shadow 0.2s", boxSizing: "border-box" },
-  btnSave: { background: "#7C6FCD", border: "none", borderRadius: 10, padding: "13px 22px", color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", transition: "all 0.2s", boxShadow: "0 4px 14px rgba(124,111,205,0.3)" },
+  root:      { minHeight: "100vh", background: "#F7F6FB", fontFamily: "'Space Grotesk',sans-serif", color: "#6B6880", display: "flex", flexDirection: "column" },
+  nav:       { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 48px", borderBottom: "1px solid #E8E4F0", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(10px)", position: "sticky", top: 0, zIndex: 10 },
+  logo:      { display: "flex", alignItems: "center", gap: 6, fontSize: 18, fontFamily: "'JetBrains Mono',monospace" },
+  main:      { flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "64px 24px 48px", maxWidth: 720, margin: "0 auto", width: "100%" },
+  pill:      { display: "inline-block", background: "#EDE9FB", border: "1px solid #C9C2F0", color: "#7C6FCD", fontSize: 12, fontWeight: 500, padding: "5px 14px", borderRadius: 20, letterSpacing: "0.04em", marginBottom: 24 },
+  h1:        { fontSize: "clamp(32px,5vw,52px)", fontWeight: 600, color: "#1E1B2E", lineHeight: 1.15, margin: "0 0 20px", textAlign: "center", letterSpacing: "-1px" },
+  sub:       { fontSize: 16, color: "#9794A8", lineHeight: 1.7, textAlign: "center", maxWidth: 520, margin: "0 0 40px" },
+  card:      { width: "100%", background: "#FFFFFF", border: "1px solid #E8E4F0", borderRadius: 16, padding: 20, marginBottom: 28, boxShadow: "0 1px 4px rgba(124,111,205,0.06)" },
+  input:     { width: "100%", background: "#F7F6FB", border: "1px solid #D8D4EC", borderRadius: 10, padding: "13px 16px 13px 40px", color: "#1E1B2E", fontSize: 14, fontFamily: "'JetBrains Mono',monospace", transition: "border-color 0.2s,box-shadow 0.2s", boxSizing: "border-box" },
+  btnSave:   { background: "#7C6FCD", border: "none", borderRadius: 10, padding: "13px 22px", color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", transition: "all 0.2s", boxShadow: "0 4px 14px rgba(124,111,205,0.3)" },
   resultBox: { marginTop: 16, borderRadius: 12, padding: 16, border: "1px solid" },
-  modeGrid: { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, width: "100%", marginBottom: 28 },
+  modeGrid:  { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, width: "100%", marginBottom: 28 },
 };
