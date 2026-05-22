@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Nav from "../Nav.jsx";
+import Nav from "D:\Prathyusha\IARE\Ideathon'26\ActiveWatch\src\pages/Nav.jsx";
 import { getCoins, getStreak, getCompletedTopics } from "../api.js";
 
 const RPG_LEVELS = [
