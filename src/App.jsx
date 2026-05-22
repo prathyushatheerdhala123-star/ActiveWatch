@@ -8,11 +8,11 @@ import UnwindMode  from './pages/UnwindMode.jsx';
 export default function App() {
   return (
     <Routes>
-      <Route path="/"        element={<HomePage />}    />
-      <Route path="/grow"    element={<GrowMode />}    />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/collect" element={<CollectPage />} />
-      <Route path="/unwind"  element={<UnwindMode />}  />
+      <Route path="/"          element={<HomePage />}    />
+      <Route path="/grow"      element={<GrowMode />}    />
+      <Route path="/dashboard" element={<Dashboard />}   />
+      <Route path="/collect"   element={<CollectPage />} />
+      <Route path="/unwind"    element={<UnwindMode />}  />
     </Routes>
   );
 }

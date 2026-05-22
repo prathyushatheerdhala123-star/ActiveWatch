@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { saveVideo } from "../api.js";
+import Nav from "../Nav.jsx";
 
 const MODE_META = {
-  grow:    { label: "Grow Mode",    color: "#7C6FCD", bg: "#EDE9FB", border: "#C9C2F0", icon: "🎓" },
-  collect: { label: "Collect Mode", color: "#2A7D52", bg: "#E6F4EE", border: "#B2D9C4", icon: "📌" },
-  unwind:  { label: "Unwind Mode",  color: "#C47B2B", bg: "#FEF3E8", border: "#F0CEAA", icon: "🌿" },
+  grow:    { label: "Grow Mode",    color: "#5A7A5C", bg: "#EEF5EE", border: "#C2D9C3", icon: "🌱", route: "/grow" },
+  collect: { label: "Collect Mode", color: "#C4622D", bg: "#FDF0E8", border: "#F0C4A8", icon: "📌", route: "/collect" },
+  unwind:  { label: "Unwind Mode",  color: "#C9952A", bg: "#FDF5E6", border: "#E8D098", icon: "🌿", route: "/unwind" },
 };
 
 function Typewriter({ words }) {
@@ -14,13 +15,17 @@ function Typewriter({ words }) {
   const [del, setDel]     = useState(false);
   useEffect(() => {
     const word = words[idx]; let t;
-    if (!del && shown.length < word.length)         t = setTimeout(() => setShown(word.slice(0, shown.length + 1)), 80);
-    else if (!del && shown.length === word.length)  t = setTimeout(() => setDel(true), 1800);
-    else if (del && shown.length > 0)               t = setTimeout(() => setShown(shown.slice(0, -1)), 45);
+    if (!del && shown.length < word.length)        t = setTimeout(() => setShown(word.slice(0, shown.length + 1)), 85);
+    else if (!del && shown.length === word.length) t = setTimeout(() => setDel(true), 2000);
+    else if (del && shown.length > 0)              t = setTimeout(() => setShown(shown.slice(0, -1)), 50);
     else { setDel(false); setIdx((idx + 1) % words.length); }
     return () => clearTimeout(t);
   }, [shown, del, idx, words]);
-  return <span style={{ color: "#7C6FCD" }}>{shown}<span style={{ animation: "blink 1s step-end infinite", color: "#7C6FCD" }}>|</span></span>;
+  return (
+    <em style={{ color: "#C4622D", fontStyle: "italic", fontWeight: 300 }}>
+      {shown}<span style={{ animation: "blink 1s step-end infinite", color: "#C4622D" }}>|</span>
+    </em>
+  );
 }
 
 export default function HomePage() {
@@ -33,63 +38,102 @@ export default function HomePage() {
   useEffect(() => { inputRef.current?.focus(); }, []);
 
   async function handleSave() {
-    if (!url.trim()) { setError("Please paste a YouTube URL first."); return; }
+    if (!url.trim()) { setError("Paste a YouTube URL first."); return; }
     if (!url.includes("youtube.com") && !url.includes("youtu.be")) { setError("That doesn't look like a YouTube link."); return; }
     setError(""); setLoading(true); setResult(null);
-    try {
-      const data = await saveVideo(url);
-      setResult(data);
-    } catch (e) {
-      setError("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    try { setResult(await saveVideo(url)); }
+    catch { setError("Something went wrong. Try again."); }
+    finally { setLoading(false); }
   }
 
-  const routeTo = m => m === "grow" ? "/grow" : m === "collect" ? "/collect" : "/unwind";
-  const meta    = result ? MODE_META[result.mode] : null;
+  const meta = result ? MODE_META[result.mode] : null;
 
   return (
-    <div style={S.root}>
+    <div style={{ minHeight: "100vh", background: "var(--cream)", fontFamily: "'DM Sans', sans-serif" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-        @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
         @keyframes spin{to{transform:rotate(360deg)}}
-        @keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-        .aw-save-btn:hover:not(:disabled){background:#6358B5!important;transform:translateY(-1px);}
-        .aw-save-btn:disabled{opacity:0.6;cursor:not-allowed;}
-        .aw-url-input:focus{border-color:#7C6FCD!important;box-shadow:0 0 0 3px rgba(124,111,205,0.12)!important;outline:none;}
-        .aw-nav-btn:hover{color:#7C6FCD!important;}
-        .aw-mode-card:hover{border-color:#C9C2F0!important;background:#FFFFFF!important;transform:translateY(-2px);}
-        .aw-open-btn:hover{background:#EDE9FB!important;}
+        @keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+        .aw-url-input:focus{border-color:#C4622D!important;box-shadow:0 0 0 3px rgba(196,98,45,0.1)!important;outline:none;}
+        .aw-submit:hover:not(:disabled){background:#A8501F!important;transform:translateY(-1px);}
+        .aw-submit:disabled{opacity:0.55;cursor:not-allowed;}
+        .aw-mode-pill:hover{border-color:#C4622D!important;color:#C4622D!important;transform:translateY(-1px);}
+        .aw-open-btn:hover{background:#C4622D!important;color:white!important;}
       `}</style>
 
-      <nav style={S.nav}>
-        <div style={S.logo}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#7C6FCD" }} />
-          <span style={{ color: "#1E1B2E", fontWeight: 600 }}>Active</span>
-          <span style={{ color: "#7C6FCD", fontWeight: 600 }}>Watch</span>
-        </div>
-        <div style={{ display: "flex", gap: 24 }}>
-          {[["Dashboard", "/dashboard"], ["Grow", "/grow"], ["Collect", "/collect"]].map(([l, p]) => (
-            <button key={l} className="aw-nav-btn" onClick={() => navigate(p)}
-              style={{ background: "none", border: "none", color: "#9794A8", fontSize: 14, cursor: "pointer", fontFamily: "inherit", transition: "color 0.2s" }}>{l}</button>
-          ))}
-        </div>
-      </nav>
+      <Nav />
 
-      <main style={S.main}>
-        <div style={{ animation: "fadeUp 0.6s ease both", textAlign: "center" }}>
-          <div style={S.pill}>✦ AI-Powered Learning Platform</div>
-          <h1 style={S.h1}>Watch smarter.<br />Learn <Typewriter words={["faster.", "deeper.", "actively.", "intentionally."]} /></h1>
-          <p style={S.sub}>Paste any YouTube link. AI classifies it and turns it into a structured learning experience — quizzes, code challenges, and action items.</p>
+      <main style={{
+        maxWidth: 680,
+        margin: "0 auto",
+        padding: "72px 24px 80px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}>
+
+        {/* Hero */}
+        <div style={{ textAlign: "center", animation: "fadeUp 0.7s ease both", marginBottom: 52 }}>
+          <div style={{
+            display: "inline-block",
+            background: "#FDF0E8",
+            border: "1px solid #F0C4A8",
+            color: "#C4622D",
+            fontSize: 12,
+            fontWeight: 500,
+            padding: "5px 14px",
+            borderRadius: 20,
+            marginBottom: 28,
+            letterSpacing: "0.06em",
+            textTransform: "uppercase",
+          }}>
+            AI-Powered Learning
+          </div>
+
+          <h1 style={{
+            fontFamily: "'Fraunces', serif",
+            fontSize: "clamp(38px, 6vw, 62px)",
+            fontWeight: 300,
+            color: "#2C1810",
+            lineHeight: 1.1,
+            letterSpacing: "-1.5px",
+            margin: "0 0 22px",
+          }}>
+            Watch smarter.<br />
+            Learn <Typewriter words={["faster.", "deeper.", "actively.", "intentionally."]} />
+          </h1>
+
+          <p style={{
+            fontSize: 17,
+            color: "#8C7B6B",
+            lineHeight: 1.75,
+            maxWidth: 480,
+            margin: "0 auto",
+            fontWeight: 300,
+          }}>
+            Paste any YouTube link. We figure out what kind of video it is and build the right experience around it — automatically.
+          </p>
         </div>
 
-        <div style={{ ...S.card, animation: "fadeUp 0.6s 0.15s ease both" }}>
-          <div style={{ display: "flex", gap: 10 }}>
+        {/* URL Input Card */}
+        <div style={{
+          width: "100%",
+          background: "var(--white)",
+          border: "1px solid var(--border)",
+          borderRadius: 18,
+          padding: 24,
+          marginBottom: 32,
+          boxShadow: "0 2px 20px rgba(44,24,16,0.06)",
+          animation: "fadeUp 0.7s 0.1s ease both",
+        }}>
+          <div style={{ display: "flex", gap: 10, marginBottom: error ? 10 : 0 }}>
             <div style={{ flex: 1, position: "relative" }}>
-              <span style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", fontSize: 13, color: "#C9C2F0" }}>▶</span>
+              <span style={{
+                position: "absolute", left: 14, top: "50%",
+                transform: "translateY(-50%)",
+                color: "#B5A898", fontSize: 14,
+              }}>▶</span>
               <input
                 ref={inputRef}
                 className="aw-url-input"
@@ -97,88 +141,181 @@ export default function HomePage() {
                 onChange={e => { setUrl(e.target.value); setError(""); }}
                 onKeyDown={e => e.key === "Enter" && handleSave()}
                 placeholder="https://youtube.com/watch?v=..."
-                style={S.input}
+                style={{
+                  width: "100%",
+                  background: "#FAF7F2",
+                  border: "1.5px solid #E2D9CE",
+                  borderRadius: 10,
+                  padding: "13px 16px 13px 40px",
+                  color: "#2C1810",
+                  fontSize: 14,
+                  fontFamily: "'DM Mono', monospace",
+                  transition: "border-color 0.2s, box-shadow 0.2s",
+                  boxSizing: "border-box",
+                }}
               />
             </div>
-            <button className="aw-save-btn" onClick={handleSave} disabled={loading} style={S.btnSave}>
+            <button
+              className="aw-submit"
+              onClick={handleSave}
+              disabled={loading}
+              style={{
+                background: "#C4622D",
+                border: "none",
+                borderRadius: 10,
+                padding: "13px 22px",
+                color: "white",
+                fontSize: 14,
+                fontWeight: 500,
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+                transition: "all 0.2s",
+                fontFamily: "'DM Sans', sans-serif",
+                boxShadow: "0 4px 14px rgba(196,98,45,0.25)",
+              }}
+            >
               {loading
                 ? <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ width: 14, height: 14, border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "white", borderRadius: "50%", animation: "spin 0.7s linear infinite", display: "inline-block" }} />
-                    Analysing…
+                    <span style={{ width: 13, height: 13, border: "2px solid rgba(255,255,255,0.4)", borderTopColor: "white", borderRadius: "50%", animation: "spin 0.7s linear infinite", display: "inline-block" }} />
+                    Thinking…
                   </span>
-                : "Save to ActiveWatch →"}
+                : "Analyse →"}
             </button>
           </div>
-          {error && <p style={{ color: "#E24B4A", fontSize: 13, marginTop: 8 }}>{error}</p>}
+
+          {error && (
+            <p style={{ color: "#C4622D", fontSize: 13, margin: "8px 0 0", fontStyle: "italic" }}>{error}</p>
+          )}
 
           {result && meta && (
-            <div style={{ ...S.resultBox, borderColor: meta.border, background: meta.bg, animation: "slideIn 0.4s ease both" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-                <div>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: meta.color, background: "rgba(255,255,255,0.6)", padding: "3px 10px", borderRadius: 20, border: `1px solid ${meta.border}` }}>
-                    {meta.icon} {meta.label}
-                  </span>
-                  <p style={{ color: "#1E1B2E", fontWeight: 500, margin: "10px 0 4px", fontSize: 15 }}>{result.title}</p>
-                  {result.chapters && <p style={{ color: "#9794A8", fontSize: 13 }}>{result.chapters.length} chapters detected</p>}
-                </div>
-                <button className="aw-open-btn" onClick={() => navigate(routeTo(result.mode))}
-                  style={{ background: "white", border: `1px solid ${meta.border}`, color: meta.color, borderRadius: 8, padding: "9px 16px", fontSize: 13, fontWeight: 500, cursor: "pointer", fontFamily: "inherit", transition: "all 0.2s", whiteSpace: "nowrap" }}>
-                  Open {meta.label} →
-                </button>
+            <div style={{
+              marginTop: 16,
+              padding: 16,
+              borderRadius: 12,
+              background: meta.bg,
+              border: `1px solid ${meta.border}`,
+              animation: "slideIn 0.4s ease both",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 12,
+            }}>
+              <div>
+                <span style={{
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: meta.color,
+                  background: "rgba(255,255,255,0.7)",
+                  padding: "3px 10px",
+                  borderRadius: 20,
+                  border: `1px solid ${meta.border}`,
+                  letterSpacing: "0.04em",
+                  textTransform: "uppercase",
+                }}>
+                  {meta.icon} {meta.label}
+                </span>
+                <p style={{ color: "#2C1810", fontWeight: 500, margin: "10px 0 3px", fontSize: 15, fontFamily: "'Fraunces', serif" }}>
+                  {result.title}
+                </p>
+                {result.chapters && (
+                  <p style={{ color: "#8C7B6B", fontSize: 13, margin: 0 }}>
+                    {result.chapters.length} chapters ready
+                  </p>
+                )}
               </div>
+              <button
+                className="aw-open-btn"
+                onClick={() => navigate(meta.route)}
+                style={{
+                  background: "white",
+                  border: `1.5px solid ${meta.border}`,
+                  color: meta.color,
+                  borderRadius: 8,
+                  padding: "9px 16px",
+                  fontSize: 13,
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  fontFamily: "inherit",
+                  transition: "all 0.2s",
+                  whiteSpace: "nowrap",
+                  flexShrink: 0,
+                }}
+              >
+                Open →
+              </button>
             </div>
           )}
         </div>
 
-        <div style={{ ...S.modeGrid, animation: "fadeUp 0.6s 0.3s ease both" }}>
+        {/* Mode pills — simple, human */}
+        <div style={{
+          display: "flex",
+          gap: 10,
+          flexWrap: "wrap",
+          justifyContent: "center",
+          marginBottom: 56,
+          animation: "fadeUp 0.7s 0.2s ease both",
+        }}>
           {[
-            { icon: "🎓", title: "Grow Mode",    color: "#7C6FCD", bg: "#EDE9FB", border: "#C9C2F0", desc: "Chapters, MCQs & coding challenges. Unlock as you go. Earn coins. Build your Knowledge Graph.", tag: "Tutorials" },
-            { icon: "📌", title: "Collect Mode", color: "#2A7D52", bg: "#E6F4EE", border: "#B2D9C4", desc: "Save beautiful moments with one tap. Visual shelves. Smart re-surfacing at the right moment.", tag: "Lifestyle"  },
-            { icon: "🌿", title: "Unwind Mode",  color: "#C47B2B", bg: "#FEF3E8", border: "#F0CEAA", desc: "Gentle wind-down nudges. Mood-based queue. Weekly awareness digest. No guilt, no hard stops.", tag: "Vlogs"     },
+            { icon: "🌱", label: "Grow Mode", sub: "For tutorials & skills", color: "#5A7A5C", bg: "#EEF5EE", border: "#C2D9C3", route: "/grow" },
+            { icon: "📌", label: "Collect Mode", sub: "For saving moments", color: "#C4622D", bg: "#FDF0E8", border: "#F0C4A8", route: "/collect" },
+            { icon: "🌿", label: "Unwind Mode", sub: "For relaxing content", color: "#C9952A", bg: "#FDF5E6", border: "#E8D098", route: "/unwind" },
           ].map(m => (
-            <div key={m.title} className="aw-mode-card"
-              style={{ background: "#FAFAFA", border: `1px solid #E8E4F0`, borderRadius: 12, padding: 18, transition: "all 0.2s" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-                <div style={{ width: 36, height: 36, borderRadius: 8, background: m.bg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>{m.icon}</div>
-                <span style={{ fontSize: 11, color: m.color, background: m.bg, padding: "2px 8px", borderRadius: 20, fontWeight: 500, border: `1px solid ${m.border}` }}>{m.tag}</span>
-              </div>
-              <div style={{ color: "#1E1B2E", fontWeight: 600, fontSize: 14, marginBottom: 6 }}>{m.title}</div>
-              <div style={{ color: "#9794A8", fontSize: 13, lineHeight: 1.6 }}>{m.desc}</div>
+            <div
+              key={m.label}
+              className="aw-mode-pill"
+              onClick={() => navigate(m.route)}
+              style={{
+                background: m.bg,
+                border: `1.5px solid ${m.border}`,
+                borderRadius: 14,
+                padding: "14px 20px",
+                cursor: "pointer",
+                transition: "all 0.2s",
+                minWidth: 180,
+                flex: 1,
+              }}
+            >
+              <div style={{ fontSize: 22, marginBottom: 6 }}>{m.icon}</div>
+              <div style={{ color: "#2C1810", fontSize: 14, fontWeight: 500, marginBottom: 3 }}>{m.label}</div>
+              <div style={{ color: "#8C7B6B", fontSize: 12 }}>{m.sub}</div>
             </div>
           ))}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10, width: "100%", animation: "fadeUp 0.6s 0.45s ease both" }}>
-          {[["🔥", "1,240+", "Active learners"], ["⚡", "50k+", "Videos processed"], ["🏆", "98%", "Completion rate"], ["🪙", "Coins", "Reward system"]].map(([icon, val, label]) => (
-            <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, background: "#FFFFFF", border: "1px solid #E8E4F0", borderRadius: 10, padding: "14px 8px" }}>
-              <span style={{ fontSize: 18 }}>{icon}</span>
-              <span style={{ color: "#1E1B2E", fontWeight: 600, fontSize: 16 }}>{val}</span>
-              <span style={{ color: "#9794A8", fontSize: 12 }}>{label}</span>
+        {/* Stats — understated */}
+        <div style={{
+          display: "flex",
+          gap: 36,
+          justifyContent: "center",
+          animation: "fadeUp 0.7s 0.3s ease both",
+        }}>
+          {[["1,240+", "learners"], ["50k+", "videos"], ["98%", "completion"]].map(([val, label]) => (
+            <div key={label} style={{ textAlign: "center" }}>
+              <div style={{
+                fontFamily: "'Fraunces', serif",
+                fontSize: 26,
+                fontWeight: 500,
+                color: "#2C1810",
+                letterSpacing: "-0.5px",
+              }}>{val}</div>
+              <div style={{ color: "#B5A898", fontSize: 12, marginTop: 2 }}>{label}</div>
             </div>
           ))}
         </div>
+
       </main>
 
-      <footer style={{ textAlign: "center", padding: "20px", fontSize: 13, color: "#C9C2F0", borderTop: "1px solid #E8E4F0" }}>
-        <span style={{ color: "#7C6FCD" }}>⚡ ActiveWatch</span>
-        <span style={{ color: "#E8E4F0", margin: "0 12px" }}>·</span>
-        <span>Built for the ideathon · {new Date().getFullYear()}</span>
+      <footer style={{
+        textAlign: "center",
+        padding: "20px",
+        fontSize: 12,
+        color: "#B5A898",
+        borderTop: "1px solid var(--border)",
+        fontStyle: "italic",
+      }}>
+        Made with care · ActiveWatch {new Date().getFullYear()}
       </footer>
     </div>
   );
 }
-
-const S = {
-  root:      { minHeight: "100vh", background: "#F7F6FB", fontFamily: "'Space Grotesk',sans-serif", color: "#6B6880", display: "flex", flexDirection: "column" },
-  nav:       { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "18px 48px", borderBottom: "1px solid #E8E4F0", background: "rgba(255,255,255,0.9)", backdropFilter: "blur(10px)", position: "sticky", top: 0, zIndex: 10 },
-  logo:      { display: "flex", alignItems: "center", gap: 6, fontSize: 18, fontFamily: "'JetBrains Mono',monospace" },
-  main:      { flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "64px 24px 48px", maxWidth: 720, margin: "0 auto", width: "100%" },
-  pill:      { display: "inline-block", background: "#EDE9FB", border: "1px solid #C9C2F0", color: "#7C6FCD", fontSize: 12, fontWeight: 500, padding: "5px 14px", borderRadius: 20, letterSpacing: "0.04em", marginBottom: 24 },
-  h1:        { fontSize: "clamp(32px,5vw,52px)", fontWeight: 600, color: "#1E1B2E", lineHeight: 1.15, margin: "0 0 20px", textAlign: "center", letterSpacing: "-1px" },
-  sub:       { fontSize: 16, color: "#9794A8", lineHeight: 1.7, textAlign: "center", maxWidth: 520, margin: "0 0 40px" },
-  card:      { width: "100%", background: "#FFFFFF", border: "1px solid #E8E4F0", borderRadius: 16, padding: 20, marginBottom: 28, boxShadow: "0 1px 4px rgba(124,111,205,0.06)" },
-  input:     { width: "100%", background: "#F7F6FB", border: "1px solid #D8D4EC", borderRadius: 10, padding: "13px 16px 13px 40px", color: "#1E1B2E", fontSize: 14, fontFamily: "'JetBrains Mono',monospace", transition: "border-color 0.2s,box-shadow 0.2s", boxSizing: "border-box" },
-  btnSave:   { background: "#7C6FCD", border: "none", borderRadius: 10, padding: "13px 22px", color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap", transition: "all 0.2s", boxShadow: "0 4px 14px rgba(124,111,205,0.3)" },
-  resultBox: { marginTop: 16, borderRadius: 12, padding: 16, border: "1px solid" },
-  modeGrid:  { display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, width: "100%", marginBottom: 28 },
-};
