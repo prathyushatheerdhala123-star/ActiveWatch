@@ -212,7 +212,7 @@ export default function GrowMode() {
                 border: `1.5px solid ${c.locked ? "#E2D9CE" : c.id < activeId ? "#5A7A5C" : c.id === activeId ? "#C4622D" : "#E2D9CE"}`,
                 display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10,
               }}>
-                {c.locked ? "🔒" : c.id < activeId
+                {c.locked ? "" : c.id < activeId
                   ? <span style={{ color: "white", fontSize: 9 }}>✓</span>
                   : <span style={{ color: c.id === activeId ? "#C4622D" : "#8C7B6B", fontSize: 9, fontFamily: "'DM Mono',monospace" }}>{c.id}</span>}
               </div>
@@ -261,7 +261,7 @@ export default function GrowMode() {
               <p style={{ color: "#8C7B6B", fontSize: 14, marginBottom: 24 }}>Auto-saved from questions you got wrong. Worth a quick look before moving on.</p>
               {notes.length === 0 ? (
                 <div style={{ textAlign: "center", padding: "60px 0", color: "#B5A898" }}>
-                  <div style={{ fontSize: 36, marginBottom: 12 }}>📝</div>
+                  <div style={{ fontSize: 36, marginBottom: 12 }}></div>
                   <div style={{ fontFamily: "'Fraunces', serif", fontSize: 16, marginBottom: 6 }}>Nothing here yet</div>
                   <div style={{ fontSize: 13 }}>Notes appear when you get a question wrong.</div>
                 </div>
@@ -282,14 +282,14 @@ export default function GrowMode() {
               <div style={{ marginBottom: 24, animation: "fadeUp 0.4s ease both" }}>
                 <div style={{ fontSize: 12, color: "#B5A898", marginBottom: 6 }}>Chapter {chapter.id} of {chapters.length}</div>
                 <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 26, fontWeight: 500, color: "#2C1810", margin: "0 0 10px", letterSpacing: "-0.5px" }}>{chapter.title}</h2>
-                <span style={{ fontSize: 11, color: "#5A7A5C", background: "#EEF5EE", padding: "3px 10px", borderRadius: 20, fontWeight: 500, border: "1px solid #C2D9C3" }}>🌱 Grow Mode</span>
+                <span style={{ fontSize: 11, color: "#5A7A5C", background: "#EEF5EE", padding: "3px 10px", borderRadius: 20, fontWeight: 500, border: "1px solid #C2D9C3" }}> Grow Mode</span>
               </div>
 
               {/* SKIP IF YOU KNOW THIS */}
               {skipPhase === "prompt" && (
                 <div style={{ background: "#EEF5EE", border: "1px solid #C2D9C3", borderRadius: 12, padding: 18, marginBottom: 20, display: "flex", justifyContent: "space-between", alignItems: "center", animation: "fadeUp 0.4s ease both" }}>
                   <div>
-                    <div style={{ color: "#5A7A5C", fontSize: 14, fontWeight: 500, marginBottom: 3 }}>⚡ Already know this?</div>
+                    <div style={{ color: "#5A7A5C", fontSize: 14, fontWeight: 500, marginBottom: 3 }}> Already know this?</div>
                     <div style={{ color: "#8C7B6B", fontSize: 13 }}>Answer 2 quick questions to skip and earn 30 🪙</div>
                   </div>
                   <div style={{ display: "flex", gap: 8 }}>
@@ -322,7 +322,7 @@ export default function GrowMode() {
 
               {skipPhase === "done" && skipResult === "passed" && (
                 <div style={{ background: "#EEF5EE", border: "1px solid #C2D9C3", borderRadius: 12, padding: 16, marginBottom: 20 }}>
-                  <div style={{ color: "#5A7A5C", fontSize: 14, fontWeight: 500 }}>✅ Nailed it! Chapter skipped. +30 🪙</div>
+                  <div style={{ color: "#5A7A5C", fontSize: 14, fontWeight: 500 }}> Nailed it! Chapter skipped. +30 🪙</div>
                 </div>
               )}
               {skipPhase === "done" && skipResult === "failed" && (
@@ -378,7 +378,7 @@ export default function GrowMode() {
 
               {/* CODE */}
               <div style={{ background: "white", border: "1px solid var(--border)", borderRadius: 14, padding: 22, marginBottom: 16, animation: "fadeUp 0.4s 0.2s ease both" }}>
-                <div style={{ color: "#2C1810", fontSize: 13, fontWeight: 500, marginBottom: 10 }}>💻 Coding Challenge</div>
+                <div style={{ color: "#2C1810", fontSize: 13, fontWeight: 500, marginBottom: 10 }}> Coding Challenge</div>
                 <p style={{ color: "#8C7B6B", fontSize: 13, marginBottom: 14, fontStyle: "italic" }}>{chapter.code.prompt}</p>
                 <div style={{ background: "#1A1412", borderRadius: 10, overflow: "hidden", marginBottom: 14 }}>
                   <div style={{ display: "flex", gap: 6, padding: "10px 14px", background: "#231A17", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
@@ -402,7 +402,7 @@ export default function GrowMode() {
               {/* PRACTICE PROBLEMS */}
               {(submitted || codeSubmitted) && (
                 <div style={{ background: "white", border: "1px solid var(--border)", borderRadius: 14, padding: 22, marginBottom: 16, animation: "fadeUp 0.4s ease both" }}>
-                  <div style={{ color: "#2C1810", fontSize: 13, fontWeight: 500, marginBottom: 6 }}>🏋️ Practice Problems</div>
+                  <div style={{ color: "#2C1810", fontSize: 13, fontWeight: 500, marginBottom: 6 }}> Practice Problems</div>
                   <p style={{ color: "#8C7B6B", fontSize: 13, marginBottom: 16, fontStyle: "italic" }}>Ready to go deeper? Pick your level.</p>
                   {chapter.practiceProblems.map((p, i) => (
                     <a key={i} href={p.url} target="_blank" rel="noopener noreferrer" className="aw-practice-row"

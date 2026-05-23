@@ -121,7 +121,7 @@ export default function CollectPage() {
                   <div key={m.id} className="aw-moment-card"
                     style={{ background: "#FAF7F2", border: "1px solid #E2D9CE", borderRadius: 12, overflow: "hidden", transition: "all 0.2s", cursor: "pointer", animation: "popIn 0.3s ease both" }}>
                     <div style={{ height: 72, background: "linear-gradient(135deg, #FDF0E8 0%, #EEF5EE 100%)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-                      <span style={{ fontSize: 22 }}>📌</span>
+                      <span style={{ fontSize: 22 }}></span>
                       <span style={{ position: "absolute", bottom: 5, right: 7, fontSize: 10, color: "#8C7B6B", background: "rgba(255,255,255,0.8)", padding: "1px 6px", borderRadius: 6, fontFamily: "'DM Mono',monospace" }}>{m.ts}</span>
                     </div>
                     <div style={{ padding: "10px 12px" }}>

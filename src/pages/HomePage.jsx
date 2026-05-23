@@ -257,9 +257,9 @@ export default function HomePage() {
           animation: "fadeUp 0.7s 0.2s ease both",
         }}>
           {[
-            { icon: "🌱", label: "Grow Mode", sub: "For tutorials & skills", color: "#5A7A5C", bg: "#EEF5EE", border: "#C2D9C3", route: "/grow" },
-            { icon: "📌", label: "Collect Mode", sub: "For saving moments", color: "#C4622D", bg: "#FDF0E8", border: "#F0C4A8", route: "/collect" },
-            { icon: "🌿", label: "Unwind Mode", sub: "For relaxing content", color: "#C9952A", bg: "#FDF5E6", border: "#E8D098", route: "/unwind" },
+            { label: "Grow Mode", sub: "For tutorials & skills", color: "#5A7A5C", bg: "#EEF5EE", border: "#C2D9C3", route: "/grow" },
+            { label: "Collect Mode", sub: "For saving moments", color: "#C4622D", bg: "#FDF0E8", border: "#F0C4A8", route: "/collect" },
+            { label: "Unwind Mode", sub: "For relaxing content", color: "#C9952A", bg: "#FDF5E6", border: "#E8D098", route: "/unwind" },
           ].map(m => (
             <div
               key={m.label}
@@ -290,18 +290,6 @@ export default function HomePage() {
           justifyContent: "center",
           animation: "fadeUp 0.7s 0.3s ease both",
         }}>
-          {[["1,240+", "learners"], ["50k+", "videos"], ["98%", "completion"]].map(([val, label]) => (
-            <div key={label} style={{ textAlign: "center" }}>
-              <div style={{
-                fontFamily: "'Fraunces', serif",
-                fontSize: 26,
-                fontWeight: 500,
-                color: "#2C1810",
-                letterSpacing: "-0.5px",
-              }}>{val}</div>
-              <div style={{ color: "#B5A898", fontSize: 12, marginTop: 2 }}>{label}</div>
-            </div>
-          ))}
         </div>
 
       </main>
@@ -314,7 +302,7 @@ export default function HomePage() {
         borderTop: "1px solid var(--border)",
         fontStyle: "italic",
       }}>
-        Made with care · ActiveWatch {new Date().getFullYear()}
+        ActiveWatch {new Date().getFullYear()}
       </footer>
     </div>
   );

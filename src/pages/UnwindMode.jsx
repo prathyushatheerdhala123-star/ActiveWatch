@@ -9,9 +9,9 @@ const QUEUE = [
 ];
 
 const MOODS = [
-  { id: "tired",  label: "Tired",            emoji: "😴", desc: "Calm, low-effort content",      color: "#5A7A5C", bg: "#EEF5EE", border: "#C2D9C3" },
-  { id: "laugh",  label: "Need a laugh",      emoji: "😂", desc: "Comedy, light entertainment",  color: "#C9952A", bg: "#FDF5E6", border: "#E8D098" },
-  { id: "inspo",  label: "Need inspiration",  emoji: "✨", desc: "Uplifting, motivating stories", color: "#C4622D", bg: "#FDF0E8", border: "#F0C4A8" },
+  { id: "tired",  label: "Tired", desc: "Calm, low-effort content",      color: "#5A7A5C", bg: "#EEF5EE", border: "#C2D9C3" },
+  { id: "laugh",  label: "Need a laugh", desc: "Comedy, light entertainment",  color: "#C9952A", bg: "#FDF5E6", border: "#E8D098" },
+  { id: "inspo",  label: "Need inspiration", desc: "Uplifting, motivating stories", color: "#C4622D", bg: "#FDF0E8", border: "#F0C4A8" },
 ];
 
 export default function UnwindMode() {
@@ -45,7 +45,7 @@ export default function UnwindMode() {
               You've been watching for 45 minutes
             </h2>
             <p style={{ color: "#8C7B6B", fontSize: 14, lineHeight: 1.75, margin: "0 0 28px", fontStyle: "italic" }}>
-              No pressure — just a gentle check-in. You can always keep watching. This is your time.
+              No pressure, just a gentle check-in. You can always keep watching. This is your time.
             </p>
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={() => { setNudge(false); navigate("/dashboard"); }}
@@ -80,7 +80,7 @@ export default function UnwindMode() {
             {/* MOOD */}
             <div style={{ background: "white", border: "1px solid var(--border)", borderRadius: 18, padding: 22, animation: "fadeUp 0.4s 0.05s ease both" }}>
               <div style={{ fontFamily: "'Fraunces', serif", fontSize: 16, color: "#2C1810", fontWeight: 500, marginBottom: 6 }}>How are you feeling?</div>
-              <p style={{ color: "#8C7B6B", fontSize: 13, marginBottom: 16, fontStyle: "italic" }}>We'll match your queue — change it any time, no biggie.</p>
+              <p style={{ color: "#8C7B6B", fontSize: 13, marginBottom: 16, fontStyle: "italic" }}>We'll match your queue. Change it any time, no biggie.</p>
               {MOODS.map(m => (
                 <div key={m.id} className="aw-mood"
                   onClick={() => setMood(m.id === mood ? null : m.id)}
@@ -99,7 +99,7 @@ export default function UnwindMode() {
             {/* AWARENESS */}
             <div style={{ background: "white", border: "1px solid var(--border)", borderRadius: 18, padding: 22, animation: "fadeUp 0.4s 0.1s ease both" }}>
               <div style={{ fontFamily: "'Fraunces', serif", fontSize: 16, color: "#2C1810", fontWeight: 500, marginBottom: 6 }}>Today's awareness</div>
-              <p style={{ color: "#8C7B6B", fontSize: 13, marginBottom: 16, fontStyle: "italic" }}>Just so you know — no judgment, no limits.</p>
+              <p style={{ color: "#8C7B6B", fontSize: 13, marginBottom: 16, fontStyle: "italic" }}>Just so you know... no judgment, no limits.</p>
               <div style={{ display: "flex", gap: 12 }}>
                 <div style={{ flex: 1, background: "#FDF5E6", border: "1px solid #E8D098", borderRadius: 12, padding: "14px", textAlign: "center" }}>
                   <div style={{ fontFamily: "'Fraunces', serif", fontSize: 26, color: "#C9952A", fontWeight: 500 }}>42</div>
@@ -117,7 +117,7 @@ export default function UnwindMode() {
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div>
                   <div style={{ fontFamily: "'Fraunces', serif", fontSize: 16, color: "#2C1810", fontWeight: 500, marginBottom: 4 }}>Intentional next</div>
-                  <p style={{ color: "#8C7B6B", fontSize: 13, margin: 0, fontStyle: "italic", maxWidth: 200 }}>When off, videos don't autoplay. One tap to continue — always your call.</p>
+                  <p style={{ color: "#8C7B6B", fontSize: 13, margin: 0, fontStyle: "italic", maxWidth: 200 }}>When off, videos don't autoplay. One tap to continue always your call.</p>
                 </div>
                 <div onClick={() => setAutoplay(!autoplay)}
                   style={{ width: 44, height: 24, borderRadius: 12, background: autoplay ? "#C4622D" : "#E2D9CE", cursor: "pointer", position: "relative", transition: "background 0.3s", flexShrink: 0 }}>
@@ -129,7 +129,7 @@ export default function UnwindMode() {
             {/* WEEKLY DIGEST */}
             <div style={{ background: "white", border: "1px solid var(--border)", borderRadius: 18, padding: 22, animation: "fadeUp 0.4s 0.2s ease both" }}>
               <div style={{ fontFamily: "'Fraunces', serif", fontSize: 16, color: "#2C1810", fontWeight: 500, marginBottom: 6 }}>This week</div>
-              <p style={{ color: "#8C7B6B", fontSize: 13, marginBottom: 16, fontStyle: "italic" }}>Pure information — what you do with it is up to you.</p>
+              <p style={{ color: "#8C7B6B", fontSize: 13, marginBottom: 16, fontStyle: "italic" }}>Pure information... what you do with it is up to you.</p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10 }}>
                 {[["8h", "watched"], ["14", "saved"], ["3", "chapters"]].map(([v, l]) => (
                   <div key={l} style={{ background: "#FAF7F2", borderRadius: 10, padding: "12px", textAlign: "center" }}>

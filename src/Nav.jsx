@@ -54,7 +54,7 @@ export default function Nav() {
             borderRadius: 8,
             display: "flex", alignItems: "center", justifyContent: "center",
             fontSize: 14,
-          }}>⚡</div>
+          }}></div>
           <span style={{
             fontFamily: "'Fraunces', serif",
             fontSize: 17,
@@ -89,7 +89,7 @@ export default function Nav() {
           fontFamily: "'DM Mono', monospace",
           fontWeight: 500,
         }}>
-          🪙 {parseInt(localStorage.getItem("aw_coins") || "120").toLocaleString()}
+           {parseInt(localStorage.getItem("aw_coins") || "120").toLocaleString()}
         </div>
       </nav>
     </>

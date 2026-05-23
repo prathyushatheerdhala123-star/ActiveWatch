@@ -4,13 +4,13 @@ import Nav from "D:/Prathyusha/IARE/Ideathon'26/ActiveWatch/src/Nav.jsx";
 import { getCoins, getStreak, getCompletedTopics } from "../api.js";
 
 const RPG_LEVELS = [
-  { title: "Intern",                 min: 0,    max: 200,  color: "#8C7B6B", icon: "🧑‍💻" },
-  { title: "Junior Dev",             min: 200,  max: 500,  color: "#5A7A5C", icon: "👨‍💻" },
-  { title: "Mid-level Dev",          min: 500,  max: 1000, color: "#C4622D", icon: "🧑‍🔧" },
-  { title: "Senior Dev",             min: 1000, max: 2000, color: "#C9952A", icon: "🏆"   },
-  { title: "Staff Engineer",         min: 2000, max: 3500, color: "#5C3D2E", icon: "⭐"   },
-  { title: "Principal Engineer",     min: 3500, max: 5000, color: "#A8501F", icon: "🚀"   },
-  { title: "Distinguished Engineer", min: 5000, max: 9999, color: "#2C1810", icon: "👑"   },
+  { title: "Intern",                 min: 0,    max: 200,  color: "#8C7B6B" },
+  { title: "Junior Dev",             min: 200,  max: 500,  color: "#5A7A5C" },
+  { title: "Mid-level Dev",          min: 500,  max: 1000, color: "#C4622D" },
+  { title: "Senior Dev",             min: 1000, max: 2000, color: "#C9952A" },
+  { title: "Staff Engineer",         min: 2000, max: 3500, color: "#5C3D2E" },
+  { title: "Principal Engineer",     min: 3500, max: 5000, color: "#A8501F" },
+  { title: "Distinguished Engineer", min: 5000, max: 9999, color: "#2C1810" },
 ];
 
 function getLevel(coins) {
@@ -18,11 +18,11 @@ function getLevel(coins) {
 }
 
 const MOCK_ACTIONS = [
-  { id: 1, label: "Complete Chapter 1 MCQ",    coins: 50, done: true,  icon: "❓" },
-  { id: 2, label: "Submit coding challenge",   coins: 50, done: true,  icon: "💻" },
-  { id: 3, label: "Unlock Chapter 2",          coins: 30, done: false, icon: "🔓" },
-  { id: 4, label: "Watch a Collect Mode video",coins: 20, done: false, icon: "📌" },
-  { id: 5, label: "Maintain your streak",      coins: 25, done: false, icon: "🔥" },
+  { id: 1, label: "Complete Chapter 1 MCQ",    coins: 50, done: true },
+  { id: 2, label: "Submit coding challenge",   coins: 50, done: true },
+  { id: 3, label: "Unlock Chapter 2",          coins: 30, done: false },
+  { id: 4, label: "Watch a Collect Mode video",coins: 20, done: false },
+  { id: 5, label: "Maintain your streak",      coins: 25, done: false },
 ];
 
 const MOCK_TOPICS = [
@@ -166,13 +166,13 @@ function GapDetection({ completedTopics }) {
   const gaps = detectGaps(completedTopics);
   if (gaps.length === 0) return (
     <div style={{ padding: "32px 0", textAlign: "center", color: "#B5A898" }}>
-      <div style={{ fontSize: 28, marginBottom: 8 }}>🎯</div>
+      <div style={{ fontSize: 28, marginBottom: 8 }}></div>
       <div style={{ fontFamily: "'Fraunces', serif", fontSize: 15 }}>Complete more chapters to unlock gap detection.</div>
     </div>
   );
   return (
     <div>
-      <div style={{ fontFamily: "'Fraunces', serif", fontSize: 16, color: "#2C1810", fontWeight: 500, marginBottom: 4 }}>🔍 What's missing</div>
+      <div style={{ fontFamily: "'Fraunces', serif", fontSize: 16, color: "#2C1810", fontWeight: 500, marginBottom: 4 }}> What's missing</div>
       <div style={{ color: "#8C7B6B", fontSize: 12, marginBottom: 16 }}>Based on what you know, here's what to learn next.</div>
       {gaps.map((gap, i) => {
         const meta = GAP_META[gap] || { desc: "Fill this gap to strengthen your foundations.", time: "~10 min", link: "#" };
@@ -264,9 +264,9 @@ export default function Dashboard() {
           <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 16 }}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12 }}>
               {[
-                { icon: "🔥", val: `${getStreak()} days`, label: "Streak",             color: "#C9952A" },
-                { icon: "✅", val: `${actions.filter(a=>a.done).length}/${actions.length}`, label: "Done today", color: "#5A7A5C" },
-                { icon: "🎓", val: "3",                    label: "In progress",         color: "#C4622D" },
+                { val: `${getStreak()} days`, label: "Streak",             color: "#C9952A" },
+                { val: `${actions.filter(a=>a.done).length}/${actions.length}`, label: "Done today", color: "#5A7A5C" },
+                { val: "3",                    label: "In progress",         color: "#C4622D" },
               ].map(s => (
                 <div key={s.label} style={{ background: "white", border: "1px solid var(--border)", borderRadius: 14, padding: 18, textAlign: "center" }}>
                   <div style={{ fontSize: 22, marginBottom: 8 }}>{s.icon}</div>
