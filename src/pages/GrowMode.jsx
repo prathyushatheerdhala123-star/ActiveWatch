@@ -1,5 +1,6 @@
+import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Nav from "../Nav.jsx";
 import { verifyAnswer, getCoins, addCoins, addNote, getNotes, addCompletedTopic } from "../api.js";
 
@@ -91,7 +92,13 @@ const PLATFORM_COLORS = { LeetCode: "#F89F1B", HackerRank: "#2EC866", GFG: "#2F8
 
 export default function GrowMode() {
   const navigate = useNavigate();
-  const [chapters, setChapters]   = useState(CHAPTERS);
+  const location = useLocation();
+  const incomingData = location.state?.videoData;
+  const location = useLocation();
+  const incomingData = location.state?.videoData;
+  const [chapters, setChapters] = useState(
+    incomingData?.chapters?.length > 0 ? incomingData.chapters : CHAPTERS
+  );
   const [activeId, setActiveId]   = useState(1);
   const [coins, setCoins]         = useState(getCoins());
   const [coinPop, setCoinPop]     = useState(null);

@@ -225,7 +225,7 @@ export default function HomePage() {
               </div>
               <button
                 className="aw-open-btn"
-                onClick={() => navigate(meta.route)}
+                onClick={() => navigate(meta.route, { state: { videoData: result } })}
                 style={{
                   background: "white",
                   border: `1.5px solid ${meta.border}`,

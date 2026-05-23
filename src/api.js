@@ -16,41 +16,41 @@ async function callBackend(endpoint, body, mockFn) {
 }
 
 export async function saveVideo(url) {
-  return callBackend("/save", { url }, () => {
-    const mocks = [
-      {
-        mode: "grow",
-        title: "React Hooks Full Course",
-        video_id: "abc123",
-        chapters: [
-          { id: 1, title: "useState & useEffect", duration: "12 min", locked: false },
-          { id: 2, title: "useContext & useRef",  duration: "14 min", locked: true  },
-          { id: 3, title: "Custom Hooks",          duration: "18 min", locked: true  },
-          { id: 4, title: "Performance Hooks",     duration: "20 min", locked: true  },
-        ],
-        coins_earned: 0,
-        topic: "react hooks",
-        practice_problems: [
-          { level: "Easy",   platform: "LeetCode",   name: "Implement useState-like Hook",      url: "https://leetcode.com" },
-          { level: "Medium", platform: "HackerRank", name: "Custom useFetch Implementation",    url: "https://hackerrank.com" },
-          { level: "Hard",   platform: "GFG",        name: "Build a Redux-like State Manager",  url: "https://geeksforgeeks.org" },
-        ],
-      },
-      {
-        mode: "collect",
-        title: "How to Build Deep Work Habits — Cal Newport",
-        video_id: "def456",
-        coins_earned: 0,
-      },
-      {
-        mode: "unwind",
-        title: "A Day in My Life as a Developer",
-        video_id: "ghi789",
-        coins_earned: 0,
-      },
-    ];
-    return mocks[Math.floor(Math.random() * mocks.length)];
-  });
+  try {
+    const res = await fetch(`${BASE}/save`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url }),
+    });
+    if (!res.ok) throw new Error("Backend error");
+    return await res.json();
+  } catch {
+    console.warn("[ActiveWatch] Backend offline — using mock");
+    return {
+      mode: "grow",
+      title: "React Hooks Full Course (Demo)",
+      video_id: "demo123",
+      topic: "react hooks",
+      chapters: [
+        {
+          id: 1, title: "useState & useEffect", duration: "12 min", locked: false,
+          summary: "useState lets you add reactive state to functional components. useEffect handles side effects like data fetching and DOM manipulation.",
+          mcq: {
+            question: "What is the correct way to update state based on the previous value?",
+            options: ["setState(state + 1)", "setState(prev => prev + 1)", "state = state + 1", "setState({ state })"],
+            correct: 1,
+            explanation: "Always use the functional form when new state depends on old state."
+          },
+          practice_problems: [
+            { level: "Easy",   platform: "LeetCode",   name: "Design Counter Component",        url: "https://leetcode.com" },
+            { level: "Medium", platform: "HackerRank", name: "Implement useToggle Custom Hook", url: "https://hackerrank.com" },
+            { level: "Hard",   platform: "GFG",        name: "Build useState from Scratch",     url: "https://geeksforgeeks.org" },
+          ],
+          locked: false,
+        },
+      ],
+    };
+  }
 }
 
 export async function verifyAnswer({ question, options, userAnswer, correctAnswer }) {
