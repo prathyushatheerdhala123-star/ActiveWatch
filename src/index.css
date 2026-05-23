@@ -1,20 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;1,300&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap');
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── CSS variables used across all pages ───────────────────── */
+:root {
+  --cream:  #FAF7F2;
+  --white:  #FFFFFF;
+  --border: #E2D9CE;
+}
+
 body {
-  background: #F7F6FB;
+  background: var(--cream);
   color: #6B6880;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'DM Sans', sans-serif;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
 #root { min-height: 100vh; }
-
-a { text-decoration: none; color: inherit; }
+a    { text-decoration: none; color: inherit; }
 button { cursor: pointer; font-family: inherit; }
 input, textarea { font-family: inherit; }
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #F0EEF9; }
-::-webkit-scrollbar-thumb { background: #C9C2F0; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #7C6FCD; }
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: #F3EDE3; }
+::-webkit-scrollbar-thumb { background: #E2D9CE; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #C4622D; }
+::selection { background: rgba(196,98,45,0.15); color: #2C1810; }
